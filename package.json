@@ -1,0 +1,30 @@
+{
+  "name": "chameleon",
+  "version": "1.0.0",
+  "description": "a discord bot",
+  "main": "src/bot.js",
+  "scripts": {
+    "test": "node src/bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pasenidis/chameleon.git"
+  },
+  "keywords": [
+    "bot",
+    "discord"
+  ],
+  "author": "Edward Paseniis <me@edpasenidis.tech>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pasenidis/chameleon/issues"
+  },
+  "homepage": "https://github.com/pasenidis/chameleon#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^4.0.4"
+  }
+}
