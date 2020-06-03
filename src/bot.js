@@ -1,5 +1,6 @@
 const { Client } = require('discord.js')
 const { nanoid } = require('nanoid');
+const { cmdReply, cmdSay, cmdTest } = require('./lib/main')
 const WS = require('./ws/ws')
 const dotenv = require('dotenv')
 
@@ -12,19 +13,6 @@ dotenv.config()
 const prefix = process.env.PREFIX
 
 /* Command Map */
-const cmdSay = (msg, args) => {
-    msg.channel.send(args.join(' '))
-}
-
-const cmdTest = (msg, args) => {
-    msg.channel.send('I am alive!')
-}
-
-const cmdReply = (msg, args) => {
-    msg.channel.send(`OK! Replying to ${msg.author}`)
-    msg.author.send('I told you I would reply to you!')
-}
-
 const commands = {
     say: cmdSay,
     test: cmdTest,
@@ -36,11 +24,13 @@ let ws = new WS(_token, 5655, client)
 client.on('ready', () => {
     console.log(`Bot is logged in as ${client.user.tag}`)
     console.log(`Dashboard Session Token: ${_token}`)
+    client.user.setActivity('with colors', { type: 'PLAYING' })
+    client.user.setAvatar('https://i.ytimg.com/vi/3kAs5yoHhF8/maxresdefault.jpg')
 })
 
 client.on('message', (msg) => {
     let content = msg.content,
-        author  = msg.member,
+        author  = msg.member || msg.author,
         chan    = msg.channel,
         guild   = msg.guild
 
