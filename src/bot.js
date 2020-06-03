@@ -13,14 +13,16 @@ dotenv.config()
 
 /* Environmental Variables */
 const prefix = process.env.PREFIX
+const token  = process.env.BOT_TOKEN
+const port   = process.env.PORT
 
 /* Command Map */
 const {commands} = require('./lib/constants')
 
-let ws = new WS(_token, process.env.PORT, client)
+let ws = new WS(_token, port, client)
 
 client.on('ready', () => {
-    const _text = boxen(`Bot is logged in as ${client.user.tag}\n\nDashboard Session Token: ${_token}\nDashboard Link: http://localhost:${process.env.PORT}`, { 
+    const _text = boxen(`Bot is logged in as ${client.user.tag}\n\nDashboard Single Session Token: ${_token}\nDashboard Link: http://localhost:${port}`, { 
         padding: 1,
         borderStyle: "round",
         borderColor: "green"
@@ -46,4 +48,4 @@ client.on('message', (msg) => {
     }
 })
 
-client.login(process.env.BOT_TOKEN)
+client.login(port)
