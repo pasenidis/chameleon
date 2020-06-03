@@ -1,11 +1,10 @@
 const { Client } = require('discord.js')
 const { nanoid } = require('nanoid');
-const { cmdReply, cmdSay, cmdTest } = require('./lib/main')
-const { playMusic } = require('./lib/music')
-const WS = require('./ws/ws')
-const dotenv = require('dotenv')
+const dotenv     = require('dotenv')
+const boxen      = require('boxen')
 
-const ytdl = require('ytdl-core')
+/* Lib Modules */
+const WS = require('./ws/ws')
 
 /* Startup Initialization */
 let client = new Client()
@@ -16,18 +15,17 @@ dotenv.config()
 const prefix = process.env.PREFIX
 
 /* Command Map */
-const commands = {
-    say: cmdSay,
-    test: cmdTest,
-    reply: cmdReply,
-    music: playMusic
-}
+const {commands} = require('./lib/constants')
 
-let ws = new WS(_token, 5655, client)
+let ws = new WS(_token, process.env.PORT, client)
 
 client.on('ready', () => {
-    console.log(`Bot is logged in as ${client.user.tag}`)
-    console.log(`Dashboard Session Token: ${_token}`)
+    const _text = boxen(`Bot is logged in as ${client.user.tag}\n\nDashboard Session Token: ${_token}\nDashboard Link: http://localhost:${process.env.PORT}`, { 
+        padding: 1,
+        borderStyle: "round",
+        borderColor: "green"
+    })
+    console.log(_text)
     client.user.setActivity('with colors', { type: 'PLAYING' })
 })
 

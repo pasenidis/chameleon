@@ -3,6 +3,8 @@ const hbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const path = require('path');
 
+const { errors } = require('../lib/constants')
+
 class WebSocket {
 
     constructor(token, port, client) {
@@ -24,7 +26,7 @@ class WebSocket {
         this.registerRoots()
 
         this.server = this.app.listen(port, () => {
-            console.log(`WebSockets listening on ${this.server.address().port}`)
+            console.log(`Initializing WebSockets server on ${this.server.address().port}\n`)
         })
     }
 
@@ -37,7 +39,7 @@ class WebSocket {
             let _token = req.query.token
 
             if (!this.checkToken(_token)) {
-                res.render('error', { error: 'INVALID TOKEN'})
+                res.render('error', { error: errors[403]})
                 return
             }
 
@@ -68,8 +70,10 @@ class WebSocket {
             let text = req.body.text
             let channelid = req.body.channelid
             
-            if (!this.checkToken(_token))
+            if (!this.checkToken(_token)) {
+                res.render('error', { error: 'Invalid token. If you are unauthorized please quit attempting to get access right now.'})
                 return
+            }
 
             let chan = this.client.guilds.cache.first().channels.cache.get(channelid)
 
@@ -81,9 +85,11 @@ class WebSocket {
             let text = req.body.text
             let user = req.body.userid
 
-            if (!this.checkToken(_token))
+            if (!this.checkToken(_token)) {
+                res.render('error', { error: 'Invalid token. If you are unauthorized please quit attempting to get access right now.'})
                 return
-            
+            }
+
             user = this.client.users.cache.get(user)
             if (user) user.send(text)
         })
@@ -93,9 +99,10 @@ class WebSocket {
             let text = req.body.text
             let chan = req.body.channelid
 
-            if (!this.checkToken(_token))
+            if (!this.checkToken(_token)) {
+                res.render('error', { error: 'Invalid token. If you are unauthorized please quit attempting to get access right now.'})
                 return
-
+            }
             
         })
 

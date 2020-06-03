@@ -1,6 +1,6 @@
 <iframe style="display: none;" name="dummyframe" id="dummyframe"></iframe>
 
-<h1>Send a message to a channel:</h1>
+<h2>Send a message to a channel:</h2>
 <form action="/sendMessage" method="POST" target="dummyframe">
     <input type="hidden" name="token" value="{{token}}">
     <select name="channelid">
@@ -12,7 +12,7 @@
     <input type="submit" value="Send">
 </form>
 
-<h1>Send a message to a user:</h1>
+<h2>Send a message to a user:</h2>
 <form action="/sendMessageUser" method="POST" target="dummyframe">
     <input type="hidden" name="token" value="{{token}}">
     <select name="userid">
@@ -24,8 +24,8 @@
     <input type="submit" value="Send">
 </form>
 
-<h1>Danger Zone</h1>
-<h5>Warning! When using pm2, the bot restarts instead of shutting down<h5>
+<h1 class="danger-zone">Danger Zone</h1>
+<h5 class="danger-text">Warning! When using pm2, the bot restarts instead of shutting down<h5>
 <form action="/shutdown" method="POST" target="dummyframe">
     <input type="hidden" name="token" value="{{token}}">
     <input type="submit" value="Shutdown bot">
