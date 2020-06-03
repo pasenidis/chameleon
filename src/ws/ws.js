@@ -41,7 +41,33 @@ class WebSocket {
                 return
             }
 
-            res.render('index', { title: 'Chameleon WebUI'})
+            let chans = []
+            this.client.guilds.cache.first().channels.cache
+                .filter(c => c.type === 'text')
+                .forEach(c => {
+                    chans.push({ id: c.id, name: c.name })
+            })
+
+            res.render('index', { 
+                title: 'Chameleon WebUI',
+                token: _token,
+                chans
+            })
+        })
+
+        this.app.post('/sendMessage', (req, res) => {
+            let _token = req.body.token
+            let text = req.body.text;
+            let channelid = req.body.channelid;
+            
+            if (!this.checkToken(_token))
+                return
+
+            let chan = this.client.guilds.cache.first().channels.cache.get(channelid)
+
+            if (chan) {
+                chan.send(text)
+            }
         })
     }
 }
