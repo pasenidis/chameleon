@@ -48,26 +48,65 @@ class WebSocket {
                     chans.push({ id: c.id, name: c.name })
             })
 
+            let users = []
+            this.client.guilds.cache.first().members.cache
+                .forEach(c => {
+                    users.push({ id: c.id, name: c.user.username})
+                })
+            console.log(users)
+
             res.render('index', { 
                 title: 'Chameleon WebUI',
                 token: _token,
-                chans
+                chans,
+                users
             })
         })
 
         this.app.post('/sendMessage', (req, res) => {
             let _token = req.body.token
-            let text = req.body.text;
-            let channelid = req.body.channelid;
+            let text = req.body.text
+            let channelid = req.body.channelid
             
             if (!this.checkToken(_token))
                 return
 
             let chan = this.client.guilds.cache.first().channels.cache.get(channelid)
 
-            if (chan) {
-                chan.send(text)
-            }
+            if (chan) chan.send(text)
+        })
+
+        this.app.post('/sendMessageUser', (req, res) => {
+            let _token = req.body.token
+            let text = req.body.text
+            let user = req.body.userid
+
+            if (!this.checkToken(_token))
+                return
+            
+            user = this.client.users.cache.get(user)
+            if (user) user.send(text)
+        })
+
+        this.app.post('/sendAnnouncement', (req, res) => {
+            let _token = req.body.token
+            let text = req.body.text
+            let chan = req.body.channelid
+
+            if (!this.checkToken(_token))
+                return
+
+            
+        })
+
+        this.app.post('/shutdown', (req, res) => {
+            let _token = req.body.token
+
+            if (!this.checkToken(_token))
+                return
+            
+            res.render('error', { error: 'Shutting down.. You won\'t be able to use the dashboard / bot until you start it again manually.'})        
+            setTimeout(() => process.exit(), 3000)
         })
     }
 }

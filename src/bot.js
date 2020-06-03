@@ -1,8 +1,11 @@
 const { Client } = require('discord.js')
 const { nanoid } = require('nanoid');
 const { cmdReply, cmdSay, cmdTest } = require('./lib/main')
+const { playMusic } = require('./lib/music')
 const WS = require('./ws/ws')
 const dotenv = require('dotenv')
+
+const ytdl = require('ytdl-core')
 
 /* Startup Initialization */
 let client = new Client()
@@ -16,7 +19,8 @@ const prefix = process.env.PREFIX
 const commands = {
     say: cmdSay,
     test: cmdTest,
-    reply: cmdReply
+    reply: cmdReply,
+    music: playMusic
 }
 
 let ws = new WS(_token, 5655, client)
@@ -25,7 +29,6 @@ client.on('ready', () => {
     console.log(`Bot is logged in as ${client.user.tag}`)
     console.log(`Dashboard Session Token: ${_token}`)
     client.user.setActivity('with colors', { type: 'PLAYING' })
-    client.user.setAvatar('https://i.ytimg.com/vi/3kAs5yoHhF8/maxresdefault.jpg')
 })
 
 client.on('message', (msg) => {
